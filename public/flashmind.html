@@ -29,7 +29,7 @@
   #viewport.panning{cursor:grabbing}
   #world{position:absolute;left:0;top:0;transform-origin:0 0}
   #edges{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-  .edge{fill:none;stroke-width:2.5;stroke-dasharray:8 10;animation:flow 1.2s linear infinite}
+  .edge{fill:none;stroke-width:2.5;stroke-dasharray:8 10;opacity:.85;animation:flow 1.2s linear infinite}
   @keyframes flow{to{stroke-dashoffset:-36}}
   .comet{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px var(--c1),0 0 24px 6px var(--c2);pointer-events:none}
   .node{position:absolute;width:max-content;transform:translate(-50%,-50%);padding:2px;border-radius:18px;cursor:pointer}
@@ -210,7 +210,7 @@ function pathD(a,b){const dx=(b.x-a.x)*.5;return `M${a.x},${a.y} C${a.x+dx},${a.
 function drawEdges(){
   const live=new Set();
   nodes.forEach(n=>{if(n.parent==null)return;const p=byId(n.parent);if(!p)return;live.add(n.id);
-    let e=edgeEls.get(n.id);if(!e){e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('class','edge');e.setAttribute('stroke','url(#eg)');e.setAttribute('gradientUnits','userSpaceOnUse');edgeG.appendChild(e);edgeEls.set(n.id,e);
+    let e=edgeEls.get(n.id);if(!e){e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('class','edge');e.style.stroke='var(--c1)';e.setAttribute('gradientUnits','userSpaceOnUse');edgeG.appendChild(e);edgeEls.set(n.id,e);
       const c=document.createElement('div');c.className='comet';cometLayer.appendChild(c);comets.set(n.id,{el:c,t:Math.random(),s:.25+Math.random()*.3})}
     e.setAttribute('d',pathD(p,n))});
   for(const [id,e] of edgeEls) if(!live.has(id)){e.remove();edgeEls.delete(id);comets.get(id).el.remove();comets.delete(id)}
