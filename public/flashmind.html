@@ -29,7 +29,7 @@
   #viewport.panning{cursor:grabbing}
   #world{position:absolute;left:0;top:0;transform-origin:0 0}
   #edges{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
-  .edge{fill:none;stroke-width:2.5;stroke-dasharray:8 10;filter:drop-shadow(0 0 6px var(--c1));animation:flow 1.2s linear infinite}
+  .edge{fill:none;stroke-width:2.5;stroke-dasharray:8 10;animation:flow 1.2s linear infinite}
   @keyframes flow{to{stroke-dashoffset:-36}}
   .comet{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px var(--c1),0 0 24px 6px var(--c2);pointer-events:none}
   .node{position:absolute;width:max-content;transform:translate(-50%,-50%);padding:2px;border-radius:18px;cursor:pointer}
@@ -152,10 +152,10 @@ function makeNode(n,fx=true){
   const ring=el.querySelector('.ring');const o={a:Math.random()*360};
   gsap.to(o,{a:'+=360',duration:3+Math.random()*2,repeat:-1,ease:'none',onUpdate:()=>ring.style.setProperty('--a',o.a+'deg')});
   gsap.to(ring,{opacity:.55,duration:.4+Math.random()*.6,repeat:-1,yoyo:true,ease:'sine.inOut'});
-  if(n.parent==null){gsap.to(el,{scale:1.02,boxShadow:'0 0 40px var(--c1), 0 0 80px var(--c2)',duration:1,repeat:-1,yoyo:true,ease:'sine.inOut',xPercent:-50,yPercent:-50})}
+  if(n.parent==null){gsap.to(el,{delay:fx?.85:0,scale:1.02,boxShadow:'0 0 40px var(--c1), 0 0 80px var(--c2)',duration:1,repeat:-1,yoyo:true,ease:'sine.inOut',xPercent:-50,yPercent:-50})}
   else gsap.set(el,{xPercent:-50,yPercent:-50});
   el.style.transform='';
-  if(fx){gsap.from(el,{scale:0,rotation:-180,duration:.8,ease:'back.out(1.8)'})}
+  if(fx){gsap.fromTo(el,{scale:0,rotation:-180},{scale:1,rotation:0,immediateRender:true,duration:.8,ease:'back.out(1.8)'})}
   // motion springs on hover
   const g=el.querySelector('.glass');
   el.addEventListener('pointerenter',()=>animate(g,{scale:1.08},{easing:spring({stiffness:400,damping:12})}));
