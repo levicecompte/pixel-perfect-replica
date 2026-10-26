@@ -32,7 +32,7 @@
   .edge{fill:none;stroke-width:2.5;stroke-dasharray:8 10;filter:drop-shadow(0 0 6px var(--c1));animation:flow 1.2s linear infinite}
   @keyframes flow{to{stroke-dashoffset:-36}}
   .comet{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px var(--c1),0 0 24px 6px var(--c2);pointer-events:none}
-  .node{position:absolute;transform:translate(-50%,-50%);padding:2px;border-radius:18px;cursor:pointer}
+  .node{position:absolute;width:max-content;transform:translate(-50%,-50%);padding:2px;border-radius:18px;cursor:pointer}
   .node .ring{position:absolute;inset:0;border-radius:18px;overflow:hidden;z-index:0}
   .node .ring::before{content:"";position:absolute;inset:-150%;background:conic-gradient(from var(--a,0deg),var(--c1),var(--c2),var(--c3),var(--c1))}
   .node .glass{position:relative;z-index:1;min-width:120px;max-width:240px;padding:14px 20px;border-radius:16px;background:rgba(8,8,18,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.1);text-align:center;font-weight:600;letter-spacing:.02em;text-shadow:0 0 10px rgba(var(--glow),.6);word-break:break-word}
@@ -196,7 +196,7 @@ function addNode(text,parent,x,y){
 }
 function addChild(pid,text){
   const p=byId(pid);const kids=children(pid).length;const gp=p.parent!=null?byId(p.parent):null;
-  let base=gp?Math.atan2(p.y-gp.y,p.x-gp.x):0;const ang=base+(kids%2?1:-1)*Math.ceil(kids/2)*.6+(gp?0:kids*1.1);
+  const ang=gp?Math.atan2(p.y-gp.y,p.x-gp.x)+(kids%2?1:-1)*Math.ceil(kids/2)*.6:-Math.PI/2+kids*(Math.PI*2/6)+(kids>=6?.5:0);
   const r=gp?200:240;return addNode(text,pid,p.x+Math.cos(ang)*r,p.y+Math.sin(ang)*r);
 }
 function removeNode(id){
